@@ -24,6 +24,7 @@
 
         root: function(i) {
             while (i !== this.trackingArray[i]) {
+                this.trackingArray[i] = this.trackingArray[this.trackingArray[i]];
                 i = this.trackingArray[i];
             }
             return i;
