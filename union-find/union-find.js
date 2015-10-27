@@ -4,6 +4,13 @@
     scope.UnionFind = function(elementsArray) {
         this.elements = elementsArray;
         this.trackingArray = this.createTrackingArray();
+        this.sz = (function() {
+            var array = [];
+            for (var i = 0; i < this.elements.length; i++) {
+                array.push(1);
+            }
+            return array;
+        })();
     };
 
     scope.UnionFind.prototype = {
@@ -39,8 +46,16 @@
             // 	}
             // }
             var i = this.root(p),
-            	j = this.root(q);
-            this.trackingArray[i] = j;
+                j = this.root(q);
+            if (i === j) return;
+            if (this.sz[i] < this.sz[j]) {
+                this.trackingArray[i] = j;
+                this.sz[j] += sz[i];
+            } else {
+                this.trackingArray[j] = i;
+                this.sz[i] += sz[j];
+            }
+
         },
 
         connected: function(p, q) {
